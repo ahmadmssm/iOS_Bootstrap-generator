@@ -29,5 +29,6 @@ enum FileNames : String {
     case environments = "Environment"
     case globalConf = "Global configuration"
     case globalKeys = "GlobalKeys"
+    case podFile = "Podfile"
     
 }
