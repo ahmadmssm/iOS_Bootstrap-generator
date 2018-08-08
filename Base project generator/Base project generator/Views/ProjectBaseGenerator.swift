@@ -29,26 +29,6 @@ class ProjectBaseGenerator: BaseViewController {
             let localizableStr = helpers.buildClassIHeaderText(className: FileNames.localizable.rawValue + ".strings")
             try? localizableFile??.write(string: localizableStr)
             //
-            //
-            let podFile = try? resourcesFolder??.createFile(named: FileNames.podFile.rawValue)
-            let podFileStr = "platform :ios, '9.1'\n" + "use_frameworks!\n\n" +
-                "target '" + projectNameTextField.stringValue + "' do\n" +
-                "  # Add your pods below\n\n" + "\nend\n\n\n" +
-                "# The purpose of the following code is to solve a bug in Cocoapods that prevent the storyboard to render when a Designable &/or Inspetable component(s) from a different module is used\n\n" +
-                "# Ref : https://github.com/CocoaPods/CocoaPods/issues/7606#issuecomment-381279098\n" +
-                "post_install do |installer|\n" +
-                "    installer.pods_project.targets.each do |target|\n" +
-                "        target.build_configurations.each do |config|\n" +
-                "            config.build_settings.delete('CODE_SIGNING_ALLOWED')\n" +
-                "            config.build_settings.delete('CODE_SIGNING_REQUIRED')\n" +
-                "        end\n" +
-                "    end\n" +
-                "    installer.pods_project.build_configurations.each do |config|\n" +
-                "        config.build_settings.delete('CODE_SIGNING_ALLOWED')\n" +
-                "        config.build_settings.delete('CODE_SIGNING_REQUIRED')\n" +
-                "    end\n" + "end\n"
-            try? podFile??.write(string: podFileStr)
-            //
             let uiFolder = try? mainFolder?.createSubfolder(named: FileNames.ui.rawValue)
             //
             let navigatorFile = try? uiFolder??.createFile(named: FileNames.navigator.rawValue + ".swift")
@@ -179,6 +159,25 @@ class ProjectBaseGenerator: BaseViewController {
             let _ = try? mainFolder?.createSubfolder(named: FileNames.utils.rawValue)
             //
             let _ = try? mainFolder?.createSubfolder(named: FileNames.supportingFiles.rawValue)
+            //
+            let podFile = try? mainFolder?.createFile(named: FileNames.podFile.rawValue)
+            let podFileStr = "platform :ios, '9.1'\n" + "use_frameworks!\n\n" +
+                "target '" + projectNameTextField.stringValue + "' do\n" +
+                "  # Add your pods below\n\n" + "\nend\n\n\n" +
+                "# The purpose of the following code is to solve a bug in Cocoapods that prevent the storyboard to render when a Designable &/or Inspetable component(s) from a different module is used\n\n" +
+                "# Ref : https://github.com/CocoaPods/CocoaPods/issues/7606#issuecomment-381279098\n" +
+                "post_install do |installer|\n" +
+                "    installer.pods_project.targets.each do |target|\n" +
+                "        target.build_configurations.each do |config|\n" +
+                "            config.build_settings.delete('CODE_SIGNING_ALLOWED')\n" +
+                "            config.build_settings.delete('CODE_SIGNING_REQUIRED')\n" +
+                "        end\n" +
+                "    end\n" +
+                "    installer.pods_project.build_configurations.each do |config|\n" +
+                "        config.build_settings.delete('CODE_SIGNING_ALLOWED')\n" +
+                "        config.build_settings.delete('CODE_SIGNING_REQUIRED')\n" +
+                "    end\n" + "end\n"
+            try? podFile??.write(string: podFileStr)
         }
     }
 
